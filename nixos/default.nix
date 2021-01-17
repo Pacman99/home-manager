@@ -34,7 +34,7 @@ let
           home.homeDirectory = config.users.users.${name}.home;
         };
       })
-    ];
+    ] ++ cfg.extraModules;
   };
 
   serviceEnvironment = optionalAttrs (cfg.backupFileExtension != null) {
@@ -62,6 +62,16 @@ in {
         description = ''
           On activation move existing files by appending the given
           file extension rather than exiting with an error.
+        '';
+      };
+
+      extraModules = mkOption {
+        type = types.listOf types.path;
+        default = [];
+        example = "[ ../modules/custom ]";
+        description = ''
+          Extra modules to be added to all home-manager users defined
+          through this module.
         '';
       };
 
